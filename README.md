@@ -67,13 +67,13 @@ Each item in the config is in `name` or `[name, options]` format, by default we 
 
 ```js
 parse([
-  (options, extra) => extra || options
+  './foo.js'
 ], {
   caller: (fn, options) => fn(options, 'hi')
 })
 //=> return
 [
-  'hi'
+  require('$cwd/foo.js')(options, 'hi')
 ]
 ```
 
