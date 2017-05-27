@@ -57,7 +57,7 @@ parse([
 ]
 ```
 
-If you're using a function, we directly return it without calling the options even if you provide it as `[function, options]`, since if you can use a function you can already execute it with `function(options)`, but you can use [isCalled](#isCalled) option to customize it.
+If you're using a function, we directly return it without calling the options even if you provide it as `[function, options]`, since if you can use a function you can already execute it with `function(options)`, but you can use [isCalled](#iscalled) option to customize it.
 
 By default relative path is resolve from `process.cwd()`
 
