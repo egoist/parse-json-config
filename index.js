@@ -23,7 +23,12 @@ function getFn(name, prefix, cwd) {
 
 module.exports = function(
   config,
-  { caller = (fn, options) => fn(options), cwd = process.cwd(), isCalled = () => true, prefix } = {}
+  {
+    caller = (fn, options) => fn(options),
+    cwd = process.cwd(),
+    isCalled = () => true,
+    prefix
+  } = {}
 ) {
   if (Array.isArray(config)) {
     return config.map(item => {
