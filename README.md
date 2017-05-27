@@ -52,10 +52,12 @@ parse([
 ])
 //=> return
 [
-  'foo',
+  function () { return 'foo' },
   require('./bar.js')(options)
 ]
 ```
+
+If you're using a function, we directly return it without calling the options even if you provide it as `[]function, options`, since if you can use a function you can already execute it with `function(options)`.
 
 By default relative path is resolve from `process.cwd()`
 

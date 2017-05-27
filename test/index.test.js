@@ -3,30 +3,16 @@ const parse = require('../')
 
 describe('array', () => {
   test('array of functions', () => {
-    const config = parse([
+    const input = [
       function foo() {
         return 'foo'
       },
       function bar() {
         return 'bar'
       }
-    ])
-    expect(config).toEqual(['foo', 'bar'])
-  })
-
-  test('array of functions with options', () => {
-    const config = parse([
-      [
-        function foo(options) {
-          return options
-        },
-        1
-      ],
-      function bar() {
-        return 'bar'
-      }
-    ])
-    expect(config).toEqual([1, 'bar'])
+    ]
+    const config = parse(input)
+    expect(config).toEqual(input)
   })
 
   test('array of strings', () => {

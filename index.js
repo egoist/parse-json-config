@@ -27,7 +27,15 @@ module.exports = function(
 ) {
   if (Array.isArray(config)) {
     return config.map(item => {
+      // Ensure it's an array
       if (!Array.isArray(item)) item = [item]
+
+      // If it's function we consider it as already executed
+      // Since if you can provide it as a function
+      // You can directly call it with the options
+      // Instead of using `[function, options]`
+      if (typeof item[0] === 'function') return item[0]
+
       const fn = getFn(item[0], prefix, cwd)
       return caller(fn, item[1])
     })
