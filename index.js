@@ -23,7 +23,7 @@ function getFn(name, prefix, cwd) {
 
 module.exports = function(
   config,
-  { caller = (fn, options) => fn(options), cwd = process.cwd(), prefix } = {}
+  { caller = (fn, options) => fn(options), cwd = process.cwd(), isCalled = () => true, prefix } = {}
 ) {
   if (Array.isArray(config)) {
     return config.map(item => {
@@ -34,7 +34,7 @@ module.exports = function(
       // Since if you can provide it as a function
       // You can directly call it with the options
       // Instead of using `[function, options]`
-      if (typeof item[0] === 'function') return item[0]
+      if (typeof item[0] === 'function' && isCalled(item[0])) return item[0]
 
       const fn = getFn(item[0], prefix, cwd)
       return caller(fn, item[1])

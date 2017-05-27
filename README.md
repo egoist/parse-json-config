@@ -57,7 +57,7 @@ parse([
 ]
 ```
 
-If you're using a function, we directly return it without calling the options even if you provide it as `[]function, options`, since if you can use a function you can already execute it with `function(options)`.
+If you're using a function, we directly return it without calling the options even if you provide it as `[function, options]`, since if you can use a function you can already execute it with `function(options)`, but you can use [isCalled](#isCalled) option to customize it.
 
 By default relative path is resolve from `process.cwd()`
 
@@ -147,6 +147,34 @@ Type: `string`<br>
 Default: `undefined`
 
 Prefix for package name.
+
+##### isCalled
+
+Type: `function`<br>
+Default: `() => true`
+
+Check if a function is called with options, by default considering all functions as called, but you can customize it:
+
+```js
+parse([
+  function foo() { return 'foo' },
+  function bar() { return 'bar' }
+], {
+  // Only used when config item is provided as function
+  isCalled(fn) {
+    // Consider it's called when its name is foo
+    return fn.name === 'foo'
+  }
+})
+//=> return
+[
+  function foo() { return 'foo' },
+  'bar'
+]
+// function bar will be called as `bar(options)`
+```
+
+`fn` is always a function.
 
 ## Contributing
 
