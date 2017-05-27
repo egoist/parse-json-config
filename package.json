@@ -1,13 +1,12 @@
 {
   "name": "parse-json-config",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Works like the way Babel parses its presets",
   "repository": {
     "url": "egoist/parse-json-config",
     "type": "git"
   },
   "main": "index.js",
-
   "files": [
     "index.js"
   ],
@@ -21,9 +20,7 @@
   "jest": {
     "testEnvironment": "node"
   },
-  "dependencies": {
-
-  },
+  "dependencies": {},
   "devDependencies": {
     "jest-cli": "^19.0.0",
     "eslint-config-rem": "^3.0.0",
