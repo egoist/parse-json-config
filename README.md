@@ -36,8 +36,8 @@ parse([
 ])
 //=> return
 [
-  require('foo')(options),
-  require('bar')()
+  require('$cwd/node_modules/foo')(options),
+  require('$cwd/node_modules/bar')()
 ]
 ```
 
@@ -53,7 +53,7 @@ parse([
 //=> return
 [
   function () { return 'foo' },
-  require('./bar.js')(options)
+  require('$cwd/bar.js')(options)
 ]
 ```
 
@@ -90,8 +90,8 @@ parse([
 ], { prefix: 'babel-preset-' })
 //=> return
 [
-  require('babel-preset-es2015')(),
-  require('babel-preset-stage-2')()
+  require('$cwd/node_modules/babel-preset-es2015')(),
+  require('$cwd/node_modules/babel-preset-stage-2')()
 ]
 ```
 
