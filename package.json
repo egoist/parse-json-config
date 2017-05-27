@@ -1,0 +1,41 @@
+{
+  "name": "parse-json-config",
+  "version": "0.0.0",
+  "description": "Works like the way Babel parses its presets",
+  "repository": {
+    "url": "egoist/parse-json-config",
+    "type": "git"
+  },
+  "main": "index.js",
+
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test:cov": "jest --coverage && npm run lint",
+    "test": "jest && npm run lint",
+    "lint": "xo"
+  },
+  "author": "egoist <0x142857@gmail.com>",
+  "license": "MIT",
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "dependencies": {
+
+  },
+  "devDependencies": {
+    "jest-cli": "^19.0.0",
+    "eslint-config-rem": "^3.0.0",
+    "xo": "^0.18.0"
+  },
+  "xo": {
+    "extends": "rem/prettier",
+    "envs": [
+      "jest"
+    ],
+    "ignores": [
+      "fixture/**"
+    ]
+  }
+}
