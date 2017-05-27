@@ -20,8 +20,8 @@ parse([
 ])
 //=> return
 [
-  require('foo')(),
-  require('bar')()
+  require('$cwd/node_modules/foo')(),
+  require('$cwd/node_modules/bar')()
 ]
 ```
 
