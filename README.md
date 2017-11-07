@@ -86,14 +86,18 @@ Use a prefix:
 ```js
 parse([
   'es2015',
-  'babel-preset-stage-2'
+  'babel-preset-stage-2',
+  '@scope/my-preset',
 ], { prefix: 'babel-preset-' })
 //=> return
 [
   require('$cwd/node_modules/babel-preset-es2015')(),
-  require('$cwd/node_modules/babel-preset-stage-2')()
+  require('$cwd/node_modules/babel-preset-stage-2')(),
+  require('$cwd/node_modules/@scope/my-preset')(),
 ]
 ```
+
+_Note: If the path is scoped (ie @scope/my-preset), prefix will be ignored_
 
 ### Pure object
 
@@ -147,8 +151,6 @@ Type: `string`<br>
 Default: `undefined`
 
 Prefix for package name.
-
-_If the path is scoped, prefix will be ignored_
 
 ##### isCalled
 
