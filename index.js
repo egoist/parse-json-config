@@ -5,7 +5,7 @@ function isLocalPath(input) {
 }
 
 function isScopedPath(input) {
-  return /^@/.test(input)
+  return /^@.*\//.test(input)
 }
 
 function getFn(name, prefix, cwd) {
