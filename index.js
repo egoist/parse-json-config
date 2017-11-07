@@ -13,8 +13,12 @@ function getFn(name, prefix, cwd) {
     return name
   }
 
-  if (isLocalPath(name) || isScopedPath(name)) {
+  if (isLocalPath(name)) {
     return require(path.resolve(cwd, name))
+  }
+
+  if (isScopedPath(name)) {
+    return require(path.join(cwd, 'node_modules', name))
   }
 
   if (prefix) {
