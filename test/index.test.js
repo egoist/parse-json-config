@@ -16,7 +16,11 @@ describe('array', () => {
   })
 
   test('array of strings', () => {
-    const config = parse(['./test/fixture/foo', './test/fixture/bar', '@test/stub'])
+    const config = parse([
+      './test/fixture/foo',
+      './test/fixture/bar',
+      '@test/stub'
+    ])
     expect(config).toEqual(['foo', 'bar', 'scoped'])
   })
 
@@ -41,11 +45,7 @@ describe('object', () => {
 
 describe('prefixed', () => {
   test('ignores scoped packages', () => {
-    const config = parse([
-      'stub', '@test/stub'
-    ], {
-      prefix: 'prefix-',
-    })
+    const config = parse(['stub', '@test/stub'], { prefix: 'prefix-' })
     expect(config).toEqual(['prefixed', 'scoped'])
   })
 })
