@@ -4,12 +4,16 @@ function isLocalPath(input) {
   return /^[./]|(^[a-zA-Z]:)/.test(input)
 }
 
+function isScopedPath(input) {
+  return /^@/.test(input)
+}
+
 function getFn(name, prefix, cwd) {
   if (typeof name === 'function') {
     return name
   }
 
-  if (isLocalPath(name)) {
+  if (isLocalPath(name) || isScopedPath(name)) {
     return require(path.resolve(cwd, name))
   }
 
