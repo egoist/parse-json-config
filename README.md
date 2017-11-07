@@ -148,6 +148,8 @@ Default: `undefined`
 
 Prefix for package name.
 
+_If the path is scoped, prefix will be ignored_
+
 ##### isCalled
 
 Type: `function`<br>

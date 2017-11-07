@@ -16,8 +16,8 @@ describe('array', () => {
   })
 
   test('array of strings', () => {
-    const config = parse(['./test/fixture/foo', './test/fixture/bar'])
-    expect(config).toEqual(['foo', 'bar'])
+    const config = parse(['./test/fixture/foo', './test/fixture/bar', '@test/stub'])
+    expect(config).toEqual(['foo', 'bar', 'scoped'])
   })
 
   test('array of strings with options', () => {
@@ -36,5 +36,16 @@ describe('object', () => {
       './test/fixture/bar.js': {}
     })
     expect(config).toEqual([1, 'bar'])
+  })
+})
+
+describe('prefixed', () => {
+  test('ignores scoped packages', () => {
+    const config = parse([
+      'stub', '@test/stub'
+    ], {
+      prefix: 'prefix-',
+    })
+    expect(config).toEqual(['prefixed', 'scoped'])
   })
 })
