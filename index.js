@@ -17,11 +17,7 @@ function getFn(name, prefix, cwd) {
     return require(path.resolve(cwd, name))
   }
 
-  if (isScopedPath(name)) {
-    return require(path.join(cwd, 'node_modules', name))
-  }
-
-  if (prefix) {
+  if (prefix && !isScopedPath(name)) {
     const re = new RegExp(`^${prefix}`)
     name = re.test(name) ? name : `${prefix}${name}`
   }
