@@ -4,6 +4,10 @@ function isLocalPath(input) {
   return /^[./]|(^[a-zA-Z]:)/.test(input)
 }
 
+function isScopedPath(input) {
+  return /^@.*\//.test(input)
+}
+
 function getFn(name, prefix, cwd) {
   if (typeof name === 'function') {
     return name
@@ -13,7 +17,7 @@ function getFn(name, prefix, cwd) {
     return require(path.resolve(cwd, name))
   }
 
-  if (prefix) {
+  if (prefix && !isScopedPath(name)) {
     const re = new RegExp(`^${prefix}`)
     name = re.test(name) ? name : `${prefix}${name}`
   }

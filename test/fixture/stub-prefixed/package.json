@@ -1,0 +1,6 @@
+{
+  "name": "prefix-stub",
+  "main": "index.js",
+  "description": "fake prefixed module",
+  "license": "MIT"
+}

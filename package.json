@@ -13,6 +13,7 @@
   "scripts": {
     "test:cov": "jest --coverage && npm run lint",
     "test": "jest && npm run lint",
+    "test:watch": "jest --watch",
     "lint": "xo"
   },
   "author": "egoist <0x142857@gmail.com>",
@@ -24,7 +25,9 @@
   "devDependencies": {
     "jest-cli": "^19.0.0",
     "eslint-config-rem": "^3.0.0",
-    "xo": "^0.18.0"
+    "xo": "^0.18.0",
+    "@test/stub": "file:./test/fixture/stub-scoped",
+    "prefix-stub": "file:./test/fixture/stub-prefixed"
   },
   "xo": {
     "extends": "rem/prettier",
