@@ -152,12 +152,19 @@ Default: `undefined`
 
 Prefix for package name.
 
+##### isResolved
+
+Type: `function`<br>
+Default: `item => item && typeof item !== 'string'`
+
+Check if the item resolved, by default considering all non-string types as resolved.
+
 ##### isCalled
 
 Type: `function`<br>
-Default: `() => true`
+Default: Same as `isResolved`.
 
-Check if a function is called with options, by default considering all functions as called, but you can customize it:
+Check if the item is called with options, by default considering all non-string types as called, but you can customize it:
 
 ```js
 parse([

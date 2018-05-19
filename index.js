@@ -36,30 +36,33 @@ module.exports = function(
   {
     caller = defaultCaller,
     cwd = process.cwd(),
-    isCalled = () => true,
+    isResolved = original => original && typeof original !== 'string',
+    isCalled = isResolved,
     prefix
   } = {}
 ) {
-  if (Array.isArray(config)) {
-    return config.map(item => {
-      // Ensure it's an array
-      if (!Array.isArray(item)) item = [item]
-
-      // If it's function we consider it as already executed
-      // Since if you can provide it as a function for example
-      // You can directly call it with the options
-      // Instead of using `[resolved, options]`
-      if (typeof item[0] !== 'string' && isCalled(item[0])) return item[0]
-
-      const resolved = resolve(item[0], prefix, cwd)
-      return caller(resolved, item[1])
-    })
-  } else if (typeof config === 'object') {
-    return Object.keys(config).map(name => {
-      const options = config[name]
-      const resolved = resolve(name, prefix, cwd)
-      return caller(resolved, options)
-    })
+  if (!config || typeof config !== 'object') {
+    return null
   }
-  return null
+
+  if (!Array.isArray(config)) {
+    config = Object.keys(config).reduce((res, name) => {
+      res.push([name, config[name]])
+      return res
+    }, [])
+  }
+
+  return config.map(item => {
+    // Ensure it's an array
+    if (!Array.isArray(item)) item = [item]
+
+    // If it's function we consider it as already executed
+    // Since if you can provide it as a function for example
+    // You can directly call it with the options
+    // Instead of using `[resolved, options]`
+    const resolved = isResolved(item[0])
+      ? item[0]
+      : resolve(item[0], prefix, cwd)
+    return isCalled(item[0], resolved) ? resolved : caller(resolved, item[1])
+  })
 }
