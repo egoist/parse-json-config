@@ -26,7 +26,9 @@ function resolve(name, prefix, cwd) {
 }
 
 function defaultCaller(resolved, options) {
-  return typeof resolved === 'object' ? resolve.apply(options) : resolved(options)
+  return typeof resolved === 'object'
+    ? resolve.apply(options)
+    : resolved(options)
 }
 
 module.exports = function(
