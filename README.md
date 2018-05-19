@@ -157,7 +157,7 @@ Prefix for package name.
 Type: `originalItem => boolean`<br>
 Default: `item => item && typeof item !== 'string'`
 
-Check if the item resolved, by default considering all non-string types as resolved.
+Check if the item is resolved, by default considering all non-string types as resolved.
 
 ##### isCalled
 
