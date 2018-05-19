@@ -185,8 +185,6 @@ parse([
 // function bar will be called as `bar(options)`
 ```
 
-`fn` is always a function.
-
 ## Contributing
 
 1. Fork it!
