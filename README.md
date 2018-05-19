@@ -154,14 +154,14 @@ Prefix for package name.
 
 ##### isResolved
 
-Type: `function`<br>
+Type: `originalItem => boolean`<br>
 Default: `item => item && typeof item !== 'string'`
 
 Check if the item resolved, by default considering all non-string types as resolved.
 
 ##### isCalled
 
-Type: `function`<br>
+Type: `(originalItem, resolvedItem) => boolean`<br>
 Default: Same as `isResolved`.
 
 Check if the item is called with options, by default considering all non-string types as called, but you can customize it:
