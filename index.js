@@ -8,8 +8,8 @@ function isScopedPath(input) {
   return /^@.*\//.test(input)
 }
 
-function getFn(name, prefix, cwd) {
-  if (typeof name === 'function') {
+function resolve(name, prefix, cwd) {
+  if (typeof name !== 'string') {
     return name
   }
 
@@ -25,10 +25,14 @@ function getFn(name, prefix, cwd) {
   return require(path.join(cwd, 'node_modules', name))
 }
 
+function defaultCaller(resolved, options) {
+  return typeof resolved === 'object' ? resolve.apply(options) : resolved(options)
+}
+
 module.exports = function(
   config,
   {
-    caller = (fn, options) => fn(options),
+    caller = defaultCaller,
     cwd = process.cwd(),
     isCalled = () => true,
     prefix
@@ -40,19 +44,19 @@ module.exports = function(
       if (!Array.isArray(item)) item = [item]
 
       // If it's function we consider it as already executed
-      // Since if you can provide it as a function
+      // Since if you can provide it as a function for example
       // You can directly call it with the options
-      // Instead of using `[function, options]`
-      if (typeof item[0] === 'function' && isCalled(item[0])) return item[0]
+      // Instead of using `[resolved, options]`
+      if (typeof item[0] !== 'string' && isCalled(item[0])) return item[0]
 
-      const fn = getFn(item[0], prefix, cwd)
-      return caller(fn, item[1])
+      const resolved = resolve(item[0], prefix, cwd)
+      return caller(resolved, item[1])
     })
   } else if (typeof config === 'object') {
     return Object.keys(config).map(name => {
       const options = config[name]
-      const fn = getFn(name, prefix, cwd)
-      return caller(fn, options)
+      const resolved = resolve(name, prefix, cwd)
+      return caller(resolved, options)
     })
   }
   return null

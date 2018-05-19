@@ -57,7 +57,7 @@ parse([
 ]
 ```
 
-If you're using a function, we directly return it without calling it with the options even if you provide it as `[function, options]`, since if you can use a function you can already execute it with `function(options)`, but there's also a [isCalled](#iscalled) option for you to customize it.
+If you're using a non-string, we directly return it without calling it with the options even if you provide it as `[resolved, options]`, since if you can use a function / object as `resolved` you can already execute it yourself, but there's also a [isCalled](#iscalled) option for you to customize it.
 
 By default relative path is resolve from `process.cwd()`
 
@@ -69,7 +69,7 @@ Each item in the config is in `name` or `[name, options]` format, by default we 
 parse([
   './foo.js'
 ], {
-  caller: (fn, options) => fn(options, 'hi')
+  caller: (resolved, options) => resolved(options, 'hi')
 })
 //=> return
 [
@@ -77,7 +77,7 @@ parse([
 ]
 ```
 
-Default caller is `(fn, options) => fn(options)`
+Default caller is `(resolved, options) => typeof resolved === 'object' ? resolve.apply(options) : resolved(options)`
 
 ### Prefix
 
@@ -141,9 +141,9 @@ The path to resolve relative path and npm packages.
 ##### caller
 
 Type: `function`<br>
-Default: `(fn, options) => fn(options)`
+Default: `(resolved, options) => resolved(options)`
 
-The caller the execute resolved function and options
+The caller defines what to do with `resolved` and `options`.
 
 ##### prefix
 
