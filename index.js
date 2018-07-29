@@ -1,4 +1,4 @@
-const path = require('path')
+const importFrom = require('import-from')
 
 function isLocalPath(input) {
   return /^[./]|(^[a-zA-Z]:)/.test(input)
@@ -14,7 +14,7 @@ function resolve(name, prefix, cwd) {
   }
 
   if (isLocalPath(name)) {
-    return require(path.resolve(cwd, name))
+    return importFrom(cwd, name)
   }
 
   if (prefix && !isScopedPath(name)) {
@@ -22,7 +22,7 @@ function resolve(name, prefix, cwd) {
     name = re.test(name) ? name : `${prefix}${name}`
   }
 
-  return require(path.join(cwd, 'node_modules', name))
+  return importFrom(cwd, name)
 }
 
 function defaultCaller(resolved, options) {
