@@ -1,5 +1,5 @@
 /* eslint-disable func-names */
-const parse = require('../src')
+const parse = require('../lib')
 
 describe('array', () => {
   test('array of functions', () => {

@@ -6,17 +6,15 @@
     "url": "egoist/parse-json-config",
     "type": "git"
   },
-  "main": "dist/index.js",
+  "main": "lib/index.js",
   "files": [
-    "dist"
+    "lib"
   ],
   "scripts": {
     "test:cov": "jest --coverage && npm run lint",
     "test": "jest && npm run lint",
     "test:watch": "jest --watch",
-    "lint": "xo",
-    "build": "ncc build src/index.js --no-minify --no-source-map",
-    "prepublishOnly": "npm run build"
+    "lint": "xo"
   },
   "author": "egoist <0x142857@gmail.com>",
   "license": "MIT",
@@ -26,11 +24,9 @@
   "devDependencies": {
     "@test/prefix-stub": "file:./test/fixture/@test/prefix-stub",
     "@test/stub": "file:./test/fixture/@test/stub",
-    "@zeit/ncc": "^0.5.5",
     "eslint-config-rem": "^3.0.0",
     "jest-cli": "^19.0.0",
     "prefix-stub": "file:./test/fixture/prefix-stub",
-    "resolve-from": "^4.0.0",
     "xo": "^0.18.0"
   },
   "xo": {
@@ -41,5 +37,8 @@
     "ignores": [
       "fixture/**"
     ]
+  },
+  "dependencies": {
+    "resolve-from": "^4.0.0"
   }
 }

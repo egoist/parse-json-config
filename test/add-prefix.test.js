@@ -1,4 +1,4 @@
-const addPrefix = require('../src/add-prefix')
+const addPrefix = require('../lib/add-prefix')
 
 test('normalize', () => {
   expect(addPrefix('foo')).toBe('foo')
