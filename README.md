@@ -1,7 +1,7 @@
 # parse-json-config
 
-[![NPM version](https://img.shields.io/npm/v/parse-json-config.svg?style=flat)](https://npmjs.com/package/parse-json-config) [![NPM downloads](https://img.shields.io/npm/dm/parse-json-config.svg?style=flat)](https://npmjs.com/package/parse-json-config) [![CircleCI](https://circleci.com/gh/egoist/parse-json-config/tree/master.svg?style=shield)](https://circleci.com/gh/egoist/parse-json-config/tree/master)  [![codecov](https://codecov.io/gh/egoist/parse-json-config/branch/master/graph/badge.svg)](https://codecov.io/gh/egoist/parse-json-config)
- [![donate](https://img.shields.io/badge/$-donate-ff69b4.svg?maxAge=2592000&style=flat)](https://github.com/egoist/donate)
+[![NPM version](https://img.shields.io/npm/v/parse-json-config.svg?style=flat)](https://npmjs.com/package/parse-json-config) [![NPM downloads](https://img.shields.io/npm/dm/parse-json-config.svg?style=flat)](https://npmjs.com/package/parse-json-config) [![CircleCI](https://circleci.com/gh/egoist/parse-json-config/tree/master.svg?style=shield)](https://circleci.com/gh/egoist/parse-json-config/tree/master) [![codecov](https://codecov.io/gh/egoist/parse-json-config/branch/master/graph/badge.svg)](https://codecov.io/gh/egoist/parse-json-config)
+[![donate](https://img.shields.io/badge/$-donate-ff69b4.svg?maxAge=2592000&style=flat)](https://github.com/egoist/donate)
 
 ## Install
 
@@ -12,17 +12,12 @@ yarn add parse-json-config
 ## Usage
 
 ```js
-const parse = require('parse-json-config')
+const parse = require("parse-json-config");
 
-parse([
-  'foo',
-  'bar'
-])
-//=> return
-[
-  require('$cwd/node_modules/foo')(),
-  require('$cwd/node_modules/bar')()
-]
+parse(["foo", "bar"])[
+  //=> return
+  (require("$cwd/node_modules/foo")(), require("$cwd/node_modules/bar")())
+];
 ```
 
 ### Use options
@@ -30,15 +25,11 @@ parse([
 To provide options while calling the function:
 
 ```js
-parse([
-  ['foo', options],
-  'bar'
-])
-//=> return
-[
-  require('$cwd/node_modules/foo')(options),
-  require('$cwd/node_modules/bar')()
-]
+parse([["foo", options], "bar"])[
+  //=> return
+  (require("$cwd/node_modules/foo")(options),
+  require("$cwd/node_modules/bar")())
+];
 ```
 
 ### Local path or function
@@ -47,14 +38,17 @@ You can also use a local path or function:
 
 ```js
 parse([
-  function () { return 'foo' },
-  ['./bar.js', options]
-])
-//=> return
-[
-  function () { return 'foo' },
-  require('$cwd/bar.js')(options)
-]
+  function() {
+    return "foo";
+  },
+  ["./bar.js", options]
+])[
+  //=> return
+  (function() {
+    return "foo";
+  },
+  require("$cwd/bar.js")(options))
+];
 ```
 
 If you're using a non-string, we directly return it without calling it with the options even if you provide it as `[resolved, options]`, since if you can use a function / object as `resolved` you can already execute it yourself, but there's also a [isCalled](#iscalled) option for you to customize it.
@@ -66,15 +60,12 @@ By default relative path is resolve from `process.cwd()`
 Each item in the config is in `name` or `[name, options]` format, by default we directly call the `name` with `option` as the only argument, but you can use a custom caller:
 
 ```js
-parse([
-  './foo.js'
-], {
-  caller: (resolved, options) => resolved(options, 'hi')
-})
-//=> return
-[
-  require('$cwd/foo.js')(options, 'hi')
-]
+parse(["./foo.js"], {
+  caller: (resolved, options) => resolved(options, "hi")
+})[
+  //=> return
+  require("$cwd/foo.js")(options, "hi")
+];
 ```
 
 Default caller is `(resolved, options) => typeof resolved === 'object' ? resolve.apply(options) : resolved(options)`
@@ -87,17 +78,41 @@ Use a prefix:
 parse([
   'es2015',
   'babel-preset-stage-2',
-  '@scope/my-preset',
+  '@org/async',
 ], { prefix: 'babel-preset-' })
 //=> return
 [
   require('$cwd/node_modules/babel-preset-es2015')(),
   require('$cwd/node_modules/babel-preset-stage-2')(),
-  require('$cwd/node_modules/@scope/my-preset')(),
+  require('$cwd/node_modules/@org/babel-preset-async')(),
 ]
 ```
 
-_Note: If the path is scoped (ie @scope/my-preset), prefix will be ignored_
+You can also use `addPrefix` method to handle some edge cases:
+
+```js
+parse([
+  'es2015',
+  'babel-preset-stage-2',
+  '@org/async',
+  '@my/async',
+], {
+  prefix: 'babel-preset-',
+  addPrefix(input, prefix) {
+    if (input.startsWith('@my/')) {
+      return input.replace(/^@my\/(preset-)?/, '@my/preset-')
+    }
+    return true
+  }
+})
+//=> return
+[
+  require('$cwd/node_modules/babel-preset-es2015')(),
+  require('$cwd/node_modules/babel-preset-stage-2')(),
+  require('$cwd/node_modules/@org/babel-preset-async')(),
+  require('$cwd/node_modules/@my/preset-async')(),
+]
+```
 
 ### Pure object
 
@@ -107,11 +122,14 @@ Similar to using an array:
 
 ```js
 [
-  ['foo', options],
-  ['./bar.js', {
-    isBar: true
-  }]
-]
+  ["foo", options],
+  [
+    "./bar.js",
+    {
+      isBar: true
+    }
+  ]
+];
 ```
 
 is equivalent to:
@@ -152,6 +170,12 @@ Default: `undefined`
 
 Prefix for package name.
 
+##### addPrefix
+
+Type: `(originalItem, prefix) => string | boolean`
+
+Return a string as prefixed value, return `true` to use default `addPrefix` handler, return `false` to skip adding prefix.
+
 ##### isResolved
 
 Type: `originalItem => boolean`<br>
@@ -167,21 +191,29 @@ Default: Same as `isResolved`.
 Check if the item is called with options, by default considering all non-string types as called, but you can customize it:
 
 ```js
-parse([
-  function foo() { return 'foo' },
-  function bar() { return 'bar' }
-], {
-  // Only used when config item is provided as function
-  isCalled(fn) {
-    // Consider it's called when its name is foo
-    return fn.name === 'foo'
+parse(
+  [
+    function foo() {
+      return "foo";
+    },
+    function bar() {
+      return "bar";
+    }
+  ],
+  {
+    // Only used when config item is provided as function
+    isCalled(fn) {
+      // Consider it's called when its name is foo
+      return fn.name === "foo";
+    }
   }
-})
-//=> return
-[
-  function foo() { return 'foo' },
-  'bar'
-]
+)[
+  //=> return
+  (function foo() {
+    return "foo";
+  },
+  "bar")
+];
 // function bar will be called as `bar(options)`
 ```
 
@@ -193,10 +225,9 @@ parse([
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request :D
 
-
 ## Author
 
 **parse-json-config** © [egoist](https://github.com/egoist), Released under the [MIT](./LICENSE) License.<br>
 Authored and maintained by egoist with help from contributors ([list](https://github.com/egoist/parse-json-config/contributors)).
 
-> [egoist.moe](https://egoist.moe) · GitHub [@egoist](https://github.com/egoist) · Twitter [@_egoistlily](https://twitter.com/_egoistlily)
+> [egoist.moe](https://egoist.moe) · GitHub [@egoist](https://github.com/egoist) · Twitter [@\_egoistlily](https://twitter.com/_egoistlily)

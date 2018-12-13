@@ -46,6 +46,6 @@ describe('object', () => {
 describe('prefixed', () => {
   test('ignores scoped packages', () => {
     const config = parse(['stub', '@test/stub'], { prefix: 'prefix-' })
-    expect(config).toEqual(['prefixed', 'scoped'])
+    expect(config).toEqual(['prefixed', 'scoped-prefixed'])
   })
 })
