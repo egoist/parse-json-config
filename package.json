@@ -15,7 +15,8 @@
     "test": "jest && npm run lint",
     "test:watch": "jest --watch",
     "lint": "xo",
-    "build": "ncc build src/index.js --no-minify --no-source-map"
+    "build": "ncc build src/index.js --no-minify --no-source-map",
+    "prepublishOnly": "npm run build"
   },
   "author": "egoist <0x142857@gmail.com>",
   "license": "MIT",
